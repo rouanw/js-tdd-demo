@@ -1,7 +1,10 @@
 var article = function(title){
   return {
     getSlug: function() {
-      return title.replace(/[^a-zA-Z0-9]/g,'-').toLowerCase();
+      return title
+        .replace(/[^a-zA-Z0-9]/g,'-')
+        .replace('trump', '')
+        .toLowerCase();
     }
   };
 };
@@ -23,5 +26,11 @@ describe('article', function(){
     var anArticle = article('something$with%special#characters');
 
     expect(anArticle.getSlug()).toBe('something-with-special-characters');
+  });
+
+  it('should remove the word trump in the slug', function(){
+    var anArticle = article('something with the word trump');
+
+    expect(anArticle.getSlug()).toBe('something-with-the-word-');
   });
 });
